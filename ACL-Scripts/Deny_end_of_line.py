@@ -3,7 +3,7 @@ import sys
 from tabnanny import verbose
 
 
-
+access_list = raw_input("Please enter the name of the ACL to be modified: ")
 
 def connect():
     host = raw_input("Please enter the host ip: ")
@@ -23,12 +23,13 @@ def preCheck(child):
 
     child.sendline('terminal length 0')
     child.expect('#')
-    child.sendline('show ipv4 access-list v4-asd-PB400-LRD-179-179-out')
+    child.sendline('show ipv4 ' + access_list)
     child.expect('#')
     print child.before
     child.sendline('\r\n')
     print("\n\n")
-    child.sendline('show access-list v4-asd-PB400-LRD-179-179-out hardware egress location 0/0/CPU0')
+    hardware_direction = raw_input("Please enter the direction of the ACL in hardware: ")
+    child.sendline('show access-list ' + access_list + 'hardware '+ hardware_direction + 'location 0/0/CPU0')
     child.expect('#')
     print child.before
     child.sendline('\r\n')
@@ -40,7 +41,7 @@ def removeAndReplaceLine(child):
     int(removeLine)
     child.sendline('configure exclusive')
     child.expect('.*#.*')
-    child.sendline('ipv4 access-list v4-asd-PB400-LRD-179-179-out')
+    child.sendline('ipv4 access-list ' + access_list)
     child.expect('.*#.*')
     child.sendline('no ' + removeLine)
     child.expect('.*#.*')
@@ -61,13 +62,7 @@ def removeAndReplaceLine(child):
 
 
 def postCheck(child):
-    child.sendline('do show ipv4 access-list v4-asd-PB400-LRD-179-179-out')
-    child.expect('.*#.*')
-    print child.before
-    print("\n\n\n")
-    child.sendline('do show access-list v4-asd-PB400-LRD-179-179-out hardware egress location 0/0/CPU0')
-    child.expect('.*#.*')
-    print child.before
+    preCheck(child)
 
 
 def main():
