@@ -4,6 +4,7 @@ import re
 import time
 from tabnanny import verbose
 
+#This is an option to read from a file if you don't want to enter the ACL's individually
 """
 def readFile():
     try:
@@ -100,7 +101,9 @@ def removeAndReplaceLine(child, access_list, ip_ver):
         child.expect('.*#.*')
         print "This is a confirmation of the line you would like to remove and replace.\n"
         child.sendline('show conf')
-        time.sleep(2)
+        child.expect('.*#.*')
+        time.sleep(4)
+        child.expect('.*#.*')
         print child.after
         commit = raw_input("Do you want to commit: ")
         commit.lower()
@@ -122,7 +125,6 @@ def removeAndReplaceLine(child, access_list, ip_ver):
         child.sendline('show conf')
         child.expect('.*#.*')
         time.sleep(4)
-
         child.expect('.*#.*')
         print child.after
         ipv6Commit = raw_input("Do you want to commit: ")
