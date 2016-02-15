@@ -110,6 +110,9 @@ def removeAndReplaceLine(child, access_list, ip_ver):
         if commit == "yes":
             child.sendline('commit')
             child.expect('.*#.*')
+            child.sendline('exit')
+            child.expect('.*#.*')
+            child.sendline('exit')
         else:
             child.sendline('abort')
             print("operation aborted")
@@ -151,7 +154,7 @@ def main():
     preCheck(child, line, ip_ver, direction)
     more = raw_input("do you have another acl you would like to edit: ")
     more.lower()
-    while more == "yes":
+    if more == "yes":
         sameDevice = raw_input("Do you want to connect to the same device: ")
         if sameDevice == "yes":
              secondLine = raw_input("Please enter the acl you would like to edit: ")
@@ -162,6 +165,7 @@ def main():
              preCheck(child, secondLine, SecondIp_ver, SecondDirection)
         else:
             main()
+        main()
     sys.exit("Bye!")
 
 main()
