@@ -5,6 +5,7 @@ import time
 from tabnanny import verbose
 
 #This is an option to read from a file if you don't want to enter the ACL's individually
+#This option is not really advised as you have less control over the actions of the script
 """
 def readFile():
     try:
@@ -155,16 +156,7 @@ def main():
     more = raw_input("do you have another acl you would like to edit: ")
     more.lower()
     if more == "yes":
-        sameDevice = raw_input("Do you want to connect to the same device: ")
-        if sameDevice == "yes":
-             secondLine = raw_input("Please enter the acl you would like to edit: ")
-             SecondIp_ver = determineIPVersion(secondLine)
-             SecondDirection = determineDirection(secondLine)
-             preCheck(child, secondLine, SecondIp_ver, SecondDirection)
-             removeAndReplaceLine(child, secondLine, SecondIp_ver)
-             preCheck(child, secondLine, SecondIp_ver, SecondDirection)
-        else:
-            main()
+        main()
     else:
         sys.exit("Bye!")
 
