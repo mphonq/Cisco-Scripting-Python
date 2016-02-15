@@ -165,7 +165,7 @@ def main():
              preCheck(child, secondLine, SecondIp_ver, SecondDirection)
         else:
             main()
-        main()
-    sys.exit("Bye!")
+    else:
+        sys.exit("Bye!")
 
 main()
