@@ -1,17 +1,20 @@
+
 import csv
 import sys
 import re
 
 row = 0 #The desired row to fetch from the CSV
-column = 7 #The desired column to feth from the CSV
-step = 1 #Used to either increment the column or the row
+column = 5 #The desired column to feth from the CSV
+step = 3 #Used to either increment the column or the row
+headers = []
 
 def readCSV():
     try:
-        spirentData = open('mlacp_switchover.csv')
+        spirentData = open('mlacp switchover.csv')
         readData = csv.reader(spirentData)
     except:
-        print "file not found!!!"
+        sys.exit("file not found!!!")
+
     return readData
 
 
@@ -39,44 +42,44 @@ def get_Tx_Rate():
     return values
 
 
-def calculate_Loss(dropped_count, tx_rate):
+def calculate_Loss():
 
         #maximum_Outage = raw_input("Please enter the maximum outage")
         passed_Streams = []
-        drop_counter = 58
 
-        total_number_of_drops = dropped_count.__len__()
 
-        for rown in range(drop_counter, total_number_of_drops):
+        for drop_counter in range(0, get_Dropped_Count().__len__()):
             if drop_counter == 0:
                 header = getHeader(row, column)
-                #print header
+                second_header = getHeader(row, column + step)
+                headers.append(header)
+                headers.append(second_header)
                 drop_counter += 1
+            else:
 
-            drop_value = float("".join(dropped_count[drop_counter].split(",")))
-        drop_counter += 1
+                drop_value = float("".join(get_Dropped_Count()[drop_counter].split(",")))
+                rate_value = float("".join(get_Tx_Rate()[drop_counter].split(",")))
+                total_loss = drop_value / rate_value
+                print "%.3f" % total_loss
 
 
-        for rowne in range(drop_counter, total_number_of_drops):
-            if drop_counter == 0:
-                header = getHeader(row, column + step)
-                #print header
+'''''''''
 
-            rate_value = float("".join(tx_rate[drop_counter].split(",")))
-            total_loss = drop_value/rate_value
-            print "%.3f" % total_loss
+
+
+
         #if value <= maximum_Outage:
             #passed_Streams.append(value)
 
-
+'''''''''
 
 
 
 def main():
 
-    dropped_count = get_Dropped_Count()
-    tx_rate = get_Tx_Rate()
-    calculate_Loss(dropped_count, tx_rate)
+    calculate_Loss()
 
 main()
+
+
 
