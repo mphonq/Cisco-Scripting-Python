@@ -1,36 +1,45 @@
-
 import csv
 import sys
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
+from collections import namedtuple
 import re
 
-row = 0 #The desired row to fetch from the CSV
-column = 7 #The desired column to feth from the CSV
-step = 1 #Used to either increment the column or the row
+row = 0  # The desired row to fetch from the CSV
+column = 5  # The desired column to fetch from the CSV
+step = 3  # Used to either increment the column or the row
+
 headers = []
+
 
 def readCSV():
     try:
-        spirentData = open('mlacp_switchover.csv')
-        readData = csv.reader(spirentData)
+        spirentData = open('mlacp switchover.csv')
+        readData = list(csv.reader(spirentData))
     except:
         sys.exit("file not found!!!")
 
     return readData
 
 
-def getHeader(row, column):
+def getHeader():
     data = readCSV()
     computed_Data = list(data)
     header = computed_Data[row][column]
     return header
 
+
 def get_Dropped_Count():
     data = readCSV()
     values = []
+
     for row in data:
+        str(row)[column]
+        #b = re.search(r'Dropped Count (Frames)', row)
         dropped_count = row[column]
         values.append(dropped_count)
-    return values
+        print row
 
 
 def get_Tx_Rate():
@@ -46,10 +55,6 @@ def calculate_Loss():
     loss = []
     for drop_counter in range(0, get_Dropped_Count().__len__()):
         if drop_counter == 0:
-            header = getHeader(row, column)
-            second_header = getHeader(row, column + step)
-            headers.append(header)
-            headers.append(second_header)
             drop_counter += 1
         else:
 
@@ -60,9 +65,8 @@ def calculate_Loss():
     return loss
 
 
-
 def outage():
-    maximum_Outage = raw_input("Please enter the maximum outage: ")
+    maximum_Outage = raw_input("Please enter the maximum outage in seconds: ")
     stream_selection = raw_input("do you want to see passed or failed streams: ")
     passed_Streams = []
     failed_Streams = []
@@ -71,7 +75,7 @@ def outage():
         if loss_values <= int(maximum_Outage):
             passed_Streams.append(loss_values)
         elif loss_values > int(maximum_Outage):
-                failed_Streams.append(loss_values)
+            failed_Streams.append(loss_values)
     if stream_selection == 'passed':
         for passed in passed_Streams:
             print "%.3f" % passed
@@ -81,10 +85,9 @@ def outage():
 
 
 
-
 def main():
-
-    outage()
+    #outage()
+    get_Dropped_Count()
 
 
 main()
