@@ -27,11 +27,19 @@ def interact(child):
 		print ('Child exited gracefully.')
 
 def baseline_eigrp(child):
-	child.readline
+	numberOfnetworks = raw_input("Please enter the number of networks you would like to advertise: ")
+	as_number = raw_input("Please enter the eigrp as number: ")
+	child.sendline('\r' + '\r')
+	child.sendline('config t')
+	child.expect('.*#.*')
+	child.sendline('router eigrp ' + as_number)
+	child.expect('.*#.*')
+	address = raw_input("Please enter network address you would like to advertise: ")
+	child.sendline('network ' + address)
 
 def main():
 	secondChild = connectToHost()
-	interactive = raw_input("Do you want to proceed to interactive mode")
+	interactive = raw_input("Do you want to proceed to interactive mode? ")
 	if interactive == "yes":
 		interact(secondChild)
 	else:
