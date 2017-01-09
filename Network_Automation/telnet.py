@@ -58,7 +58,7 @@ def baseline_eigrp_named(child):
 			child.sendline('network ' + address)
 	child.expect('.*#.*')
 	child.sendline(chr(26))
-	
+
 
 def main():
 	secondChild = connectToHost()
