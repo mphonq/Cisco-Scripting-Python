@@ -1,4 +1,3 @@
-#ssh-add "ssh_key" this needs to be done on your host computer before running the script so your private key is sent in order to authenticate.
 #coding=utf-8
 
 import pexpect
@@ -8,19 +7,19 @@ from threading import Thread
 
 
 
-def connectToDevice(host): #This method first connects to the Athena box and from Athena to any other router you would like to connect to.
+def connectToDevice(host): 
 
     try:
         username = raw_input("Please enter your username: ")
-        #host = raw_input("Please enter the host ip or hostname: ")  # e.g nl-gv-pbl-a1gsi-cr01a
-        child = pexpect.spawn("ssh " + username +"@"+ str(host)) #connect to Athena !!NB must be on the Company network
+        #host = raw_input("Please enter the host ip or hostname: ") 
+        child = pexpect.spawn("ssh " + username +"@"+ str(host))
         child.expect("Password: ")
         password = raw_input("Please enter your password: ")
         child.sendline(password)
         child.timeout = 4
         child.expect('.*#.*')
         print 'connected to device!!!!\n'
-        print child.before  # confirmation of the router connection if you don't see the login banner It's advised to exit the script
+        print child.before
         return child
 
     except pexpect.ExceptionPexpect :
@@ -87,7 +86,7 @@ def checkLicense(child):
 
 
 
-def main(): #Self explanatory this is the heart of the code, without it nothing will run !!NB recursion is implemented here with a stop condition reliant on your input.
+def main():
 
     host = readFile()
 
