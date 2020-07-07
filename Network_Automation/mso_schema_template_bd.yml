@@ -1,0 +1,49 @@
+tasks:
+
+  - name: Add a new EPG
+
+    aci_epg:
+
+      hostname: "192.168.178.253"
+
+      username: admin
+
+      password: testl@b123
+
+      validate_certs: False
+
+      tenant: Test
+
+      ap: test
+
+      epg: web_epg
+
+      description: Web Intranet EPG
+
+      bd: web_bd
+
+      state: present
+
+    delegate_to:localhost
+
+  - name: Query an EPG
+
+    aci_epg:
+
+      hostname: "192.168.178.253"
+
+      username: admin
+
+      password: testl@b123
+
+      validate_certs: False
+
+      tenant: Test
+
+      ap: test
+
+      epg: web_epg
+
+      state: query
+    delegate_to: localhost
+    register: query_result
